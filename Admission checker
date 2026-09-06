@@ -1,0 +1,346 @@
+#Python program to determine admission
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+import random
+from datetime import datetime
+
+user = {}
+
+def ask():
+    print("            WELCOME DEAR CANDIDATE            ")
+    print("----------------------------------------------")
+    ccc = input("           Have you applied before: "         ).upper()
+    print("----------------------------------------------")
+    if ccc == 'YES':
+        ab = input("Enter your application pin: ")
+
+        if ab == '0000':
+            exams()
+        else:
+            print("Incorrect pin")
+    elif ccc == 'NO':
+        admission()
+    else:
+        print("Not a valid choice")
+
+def admission():
+    global user
+    x = 'ENGINEERING'
+    y = 'MEDICINE'
+    z = 'ARTS'
+
+    a = ['AEROSPACE', 'CHEMICAL', 'ELECTRICAL', 'MECHANICAL', 'MECHATRONICS', 'NANOTECHNOLOGY', 'PETROLEUM']
+    b = ['SURGERY', 'NURSING', 'PHARMACY', 'DENTISTRY', 'HUMAN ANATOMY']
+    c = ['ARCHITECTURE', 'QUANTITY SURVEY', 'URBAN AND REGIONAL PLANNING']
+    
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print('THE FOLLOWING FIELDS AND COURSES ARE AVAILABLE')
+    print(x, "\n", a)
+    print(" ")
+    print(y, "\n", b)
+    print(" ")
+    print(z, "\n", c)
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print(" ")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    sname = input("       Enter your surname:            ").upper()
+    fname = input("      Enter your firstname:           ").upper()
+    YOB = input("   Enter your year of birth:            ").upper()
+    uni = input("    Choose your university:             ").upper()
+    field = input("    Enter your field of study:        ").upper()
+    course =  input("    Enter choice of course:         ").upper()
+    UTME = int(input("        Enter UTME score:              "))
+    print("----------------------------------------------")
+    
+    user = {
+        "surname": sname,
+        "firstname": fname,
+        "year_of_birth": YOB,
+        "university": uni,
+        "field": field,
+        "course": course,
+        "score": UTME
+    }
+    
+    global asn
+    global afn
+    global ay
+    global au
+    global af
+    global ac
+    global aut
+    asn = sname
+    afn = fname
+    ay = YOB
+    au = uni
+    af = field
+    ac = course
+    aut = UTME
+    
+    if field == x and course not in a:
+        print("Engineering course not offered")
+        xz = False
+    elif field == y and course not in b:
+        print("Medicine course not offered")
+        xz = False
+    elif field == z and course not in c:
+        print("Art course not offered")
+        xz = False 
+    else:
+        xz = True
+
+    current_year = datetime.now().year
+    age = current_year - int(YOB)
+
+    if age > 15 and field in (x, y, z) and xz == True:
+        print("Congratuations",sname ,fname)
+        print("You are up to the required age\n Your application pin is 0000")
+        qr = input("To proceed press 0: ")
+        if qr == '0':
+             print("You are qualified for the examinations")
+             print("----------------------------------------")
+             print("      Do you wish to take the exams     ")
+             print("----------------------------------------")
+             print("1.               YES                    ")
+             print("2.                NO                    ")
+             print("----------------------------------------")
+             p = input("  ENTER YOUR CHOICE(1-2)            ")
+             print("----------------------------------------")
+
+             if p == '1':
+                 exams()
+             elif p == '2':
+                 print("See you next time")
+             else:
+                 print("Not a valid choice")
+        else:
+            print("Invalid choice")
+    else:
+        print("Candidate not qualified")
+
+def exams():
+    global user
+    while True:
+     print("The exams✍ consist of 5 questions each of 20 marks\nScore an average of 60% to pass\nGOOD LUCK!!!")
+     d =input("1 => How many ways can 6 books be arranged in 4 shelfs ? ")
+     e = input("2 => What is the tallest building in the world ? ").upper()
+     f = input("3 => The speed of a car that covers a distnce of 350m in 50 secs is ? ")
+     g = input("4 => The metal that is liquid at room temperature is ? ").upper()
+     h = input("5 => The purest form of natural water is ? ").upper()
+
+     if d == '30':
+        i = int(20)
+     else:
+        i = int(0)
+     if e == "BURJ KHALIFA":
+        j = int(20)
+     else:
+        j = int(0)
+     if f == '7':
+        k = int(20)
+     else:
+        k = int(0)
+     if g == "MERCURY":
+        m = int(20)
+     else:
+        m = int(0)
+     if h == "RAIN WATER":
+        n = int(20)
+     else:
+        n = int(0)
+        
+     mark = i + j + k + m + n
+     if int(mark) > 40:
+        
+        pn = random.randint(1000, 4000)
+        print("  SUCESS🎉\n  You had a score of ",mark,"\n  YOUR ADMISSION PIN IS =>",pn)
+        break
+     else:
+        print("SORRY😔.YOUR SCORE IS",mark,"\nTRY AGAIN")
+        continue
+
+    global ei
+    global ej
+    global ek
+    global em
+    global en
+    global emark
+    global glo
+    ei = i
+    ej = j
+    ek = k
+    em = m
+    en = n
+    emark = mark
+    glo = pn
+    
+def verify():
+    global user
+    if not user:
+        print("Register first")
+        return 
+    global glo
+    global asn
+    global afn
+    global ay
+    global au
+    global af
+    global ac
+    global aut
+    
+    
+    while True:
+        qa = input("HAVE YOU TAKEN THE EXAMS: ").upper()
+        if qa == 'YES':
+               try:
+                p = int(input("Enter your pin: "))
+               except ValueError:
+                 print("Pin must be a number")
+                 continue
+               
+               if p == glo:
+                   print("")
+                   print("   ~~~CONGRATULATIONS",asn, afn, ".~~~\n      YOU HAVE BEEN GRANTED PROVISIONAL ADMISSION AT",au,"TO STUDY",ac,"UNDER THE FACULTY OF",af,
+                   "\n      WISHING YOU A BEAUTIFUL STAY IN ",au,".\nTHANK YOU.")
+                   vf = 'ADMITTED'
+                   break
+               else:
+                  print("Incorrect pin")
+                  vf = 'NOT ADMITTED'
+        elif qa == 'NO':
+               exams()
+        else:
+            print("Enter a valid choice(YES OR NO)")
+    global vvf
+    vvf = vf
+
+def result():
+    global user
+    if not user:
+        print("Register first")
+        return
+    global ei
+    global ej
+    global ek
+    global em
+    global en
+    global emark
+    global aut
+    print("Examination result📄")
+    print(   "1   = ",ei," marks")
+    print(   "2   = ",ej," marks")
+    print(   "3   = ",ek," marks")
+    print(   "4   = ",em," marks")
+    print(   "5   = ",en," marks")
+    print("---------------------")
+    print("Total ="  ,emark," marks")
+    print("---------------------")
+    print("        REMARKS      ")
+    if emark == 60:
+        print("          <=👍GOOD👍=>")
+    elif emark == 80:
+        print("     <=👊VERY GOOD👊=>")
+    elif emark == 100:
+        print("     <=👌EXCELLENT👌=>")
+    else:
+        print("<=👎POOR=👎>")
+
+    print("UTME score = <=",aut,"=>\nPOST-UTME score = <=",emark,"=> ")
+    avr = (int(aut) + (int(emark)*4))/8
+    print("AVERAGE = ",avr,"%")
+
+def bio():
+    global user
+    if not user:
+        print("Register first")
+        return
+    global asn
+    global afn
+    global ay
+    global au
+    global af
+    global ac
+    global aut
+    global emark
+    global vvf
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("            BIO DATA               ")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("          NAME:       ",asn , afn,"")
+    print(" YEAR OF BIRTH:       ",ay,"       ")
+    print("    UNIVERSITY:       ",au,"       ")
+    print("         FIELD:       ",af,"       ")
+    print("        COURSE:       ",ac,"       ")
+    print("    UTME SCORE:       ",aut,"      ")
+    print("POSTUTME SCORE:       ",emark,"    ")
+    print("        STATUS:       ",vvf,"      ")
+
+def export_to_pdf():
+    global user
+    if not user:
+        print("Register first")
+        return
+    name = input("Save report as: ")
+    filename = f"{name}.pdf"
+    c = canvas.Canvas(filename, pagesize=A4)
+    width, height = A4
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(100, height - 50, "Student Admission Report")
+    c.setFont("Helvetica", 10)
+
+    y = height - 100
+    c.drawString(50, y, f"Name: {asn} {afn}")
+    y -= 20
+    c.drawString(50, y, f"Year of Birth: {ay}")
+    y -= 20
+    c.drawString(50, y, f"University: {au}")
+    y -= 20
+    c.drawString(50, y, f"Field: {af}")
+    y -= 20
+    c.drawString(50, y, f"Course: {ac}")
+    y -= 20
+    c.drawString(50, y, f"UTME Score: {aut}")
+    y -= 20
+    c.drawString(50, y, f"Post-UTME Score: {emark}")
+    y -= 20
+    c.drawString(50, y, f"Admission Status: {vvf}")
+
+    c.save()
+    print("Export successful")
+    print("Report saved as",filename,"")
+
+    
+is_running = True
+while is_running:
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("               APPLICATION BOARD              ")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("                  1. Apply                    ")
+    print("              2. Verify admission             ")
+    print("                3. Check Result               ")
+    print("                 4. Profile                   ")
+    print("               5. Export to PDF               ")
+    print("                  6. Exit                     ")
+ 
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    choice = input("  Enter your choice(1 - 6):             ")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
+    if choice == '1':
+         ask()
+    elif choice == '2':
+        verify()
+    elif choice == '3':
+        result()
+    elif choice == '4':
+        bio()
+    elif choice == '5':
+        export_to_pdf()
+    elif choice == '6':
+        is_running = False
+    else:
+        print("That's not a valid choice")
+
+print("----------------------------------------------")
+print("            SEE YOU NEXT TIME                 ")
+print("----------------------------------------------")
